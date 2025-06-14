@@ -40,11 +40,16 @@ class MiniFileSystem:
     
     def ls(self):
         contents = []
-        for d in self.directories[self.current_dir]:
-            contents.append(d + "/")
+        # Lista subdiretórios do diretório atual
+        for d in self.directories:
+            dirname = os.path.dirname(d)
+            if dirname == self.current_dir:
+                contents.append(os.path.basename(d) + "/")
         
-        for f in [f for f in self.files if os.path.dirname(f) == self.current_dir]:
-            contents.append(os.path.basename(f))
+        # Lista arquivos do diretório atual
+        for f in self.files:
+            if os.path.dirname(f) == self.current_dir:
+                contents.append(os.path.basename(f))
         
         print("\n".join(contents) if contents else "Diretório vazio")
     
@@ -92,15 +97,28 @@ class MiniFileSystem:
             return False
     
     def mv(self, src, dest):
-        # Implementação básica de mover/renomear
-        if src in self.files:
-            content = self.files[src]["content"]
-            self.rm(src)
-            self.write(dest, content)
-            print(f"Arquivo {src} movido/renomeado para {dest}")
+        # Resolve caminhos relativos/absolutos
+        src_path = os.path.join(self.current_dir, src) if not src.startswith("/") else src
+        dest_path = os.path.join(self.current_dir, dest) if not dest.startswith("/") else dest
+        
+        if src_path in self.files:
+            # Copia os dados do arquivo
+            file_data = self.files[src_path]
+            
+            # Cria o novo arquivo
+            self.files[dest_path] = {
+                "content": file_data["content"],
+                "created": file_data["created"],
+                "modified": datetime.now(),
+                "size": file_data["size"]
+            }
+            
+            # Remove o arquivo antigo
+            del self.files[src_path]
+            print(f"Arquivo {src_path} movido/renomeado para {dest_path}")
             return True
         else:
-            print(f"Arquivo {src} não encontrado")
+            print(f"Arquivo {src_path} não encontrado")
             return False
     
     def stat(self, file_name):
