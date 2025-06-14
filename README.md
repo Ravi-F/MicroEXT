@@ -20,11 +20,11 @@ Este projeto implementa um mini sistema de arquivos simulado em Python, inspirad
 ## 🛠️ Como Executar
 
 1. Certifique-se de ter Python instalado (versão 3.6 ou superior)
-2. Copie o código para um arquivo chamado `minifs.py`
+2. Copie o código para um arquivo chamado `miniExt.py`
 3. Execute o programa com o comando:
 
 ```bash
-python minifs.py
+python miniExt.py
 ```
 
 4. Use os comandos disponíveis para interagir com o sistema de arquivos simulado
