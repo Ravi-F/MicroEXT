@@ -24,7 +24,7 @@ Este projeto implementa um mini sistema de arquivos simulado em Python, inspirad
 3. Execute o programa com o comando:
 
 ```bash
-python miniExt.py
+python microExt.py
 ```
 
 4. Use os comandos disponíveis para interagir com o sistema de arquivos simulado
